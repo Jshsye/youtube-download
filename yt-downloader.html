@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Video Downloader</title>
+    <meta name="description" content="Download YouTube videos and shorts easily with our free tool. Fast, secure, and user-friendly.">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #ff0000;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        main {
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        #url-input {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        #video-url {
+            width: 100%;
+            max-width: 500px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        #download-btn {
+            padding: 10px 20px;
+            background-color: #ff0000;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #video-preview {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        #video-frame {
+            width: 100%;
+            max-width: 560px;
+            height: 315px;
+            border: none;
+            border-radius: 10px;
+        }
+        #download-options {
+            text-align: center;
+            display: none; /* Hidden by default */
+        }
+        #download-options button {
+            padding: 10px 20px;
+            margin: 5px;
+            background-color: #ff0000;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #333;
+            color: white;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+        @media (max-width: 600px) {
+            #video-frame {
+                height: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>YouTube Video & Shorts Downloader</h1>
+    </header>
+    <main>
+        <section id="url-input">
+            <input type="text" id="video-url" placeholder="Paste YouTube URL here">
+            <button id="download-btn">Preview Video</button>
+        </section>
+        <section id="video-preview">
+            <iframe id="video-frame" src="" frameborder="0" allowfullscreen></iframe>
+        </section>
+        <section id="download-options">
+            <h2>Download Options</h2>
+            <button id="mp4-download">Download MP4</button>
+            <button id="mp3-download">Download MP3</button>
+        </section>
+        <section id="ad-space">
+            <!-- Google AdSense Ad Unit -->
+            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+            <ins class="adsbygoogle"
+                style="display:block"
+                data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                data-ad-slot="XXXXXXXXXX"
+                data-ad-format="auto"
+                data-full-width-responsive="true"></ins>
+            <script>
+                (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2023 YouTube Downloader. All rights reserved.</p>
+    </footer>
+    <script>
+        document.getElementById('download-btn').addEventListener('click', function() {
+            const videoUrl = document.getElementById('video-url').value;
+            const videoId = extractVideoId(videoUrl);
+            if (videoId) {
+                const embedUrl = `https://www.youtube.com/embed/${videoId}`;
+                document.getElementById('video-frame').src = embedUrl;
+                document.getElementById('download-options').style.display = 'block';
+            } else {
+                alert('Invalid YouTube URL');
+            }
+        });
+
+        function extractVideoId(url) {
+            const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+            const match = url.match(regExp);
+            return (match && match[2].length === 11) ? match[2] : null;
+        }
+
+        document.getElementById('mp4-download').addEventListener('click', function() {
+            const videoUrl = document.getElementById('video-url').value;
+            if (videoUrl) {
+                window.location.href = `/download?url=${encodeURIComponent(videoUrl)}&format=mp4`;
+            } else {
+                alert('Please enter a valid YouTube URL');
+            }
+        });
+
+        document.getElementById('mp3-download').addEventListener('click', function() {
+            const videoUrl = document.getElementById('video-url').value;
+            if (videoUrl) {
+                window.location.href = `/download?url=${encodeURIComponent(videoUrl)}&format=mp3`;
+            } else {
+                alert('Please enter a valid YouTube URL');
+            }
+        });
+    </script>
+</body>
+</html>
